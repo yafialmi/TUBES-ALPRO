@@ -5,21 +5,19 @@ import "fmt"
 const MAXDATA = 100
 
 type tidur struct {
-	tanggal   string
-	jamTidur  string
-	jamBangun string
+	tanggal                                                                    string
+	umur, jamTidur, menitTidur, jamBangun, menitBangun, durasiJam, durasiMenit int
 }
 
 type tabtidur [MAXDATA]tidur
-
-var ts tabtidur
-var ns int = 0
 
 func main() {
 	menu_utama()
 }
 
 func menu_utama() {
+	var ts tabtidur
+	var ns int = 0
 	var pilih int
 	for {
 		fmt.Println("=========================")
@@ -28,8 +26,9 @@ func menu_utama() {
 		fmt.Println("1. Tambah Riwayat Tidur")
 		fmt.Println("2. Ubah Riwayat Tidur")
 		fmt.Println("3. Hapus Riwayat Tidur")
-		fmt.Println("4. Cetak Semua Data")
-		fmt.Println("5. Exit")
+		fmt.Println("4. Pengecekan Durasi")
+		fmt.Println("5. Cetak Semua Data")
+		fmt.Println("6. Exit")
 		fmt.Println("-------------------------")
 		fmt.Println("Pilih [1/2/3/4/5]: ")
 		fmt.Scan(&pilih)
@@ -43,15 +42,17 @@ func menu_utama() {
 		case 3:
 			hapus_data(&ts, &ns)
 		case 4:
-			cetak_data(ts, ns)
+			cek_durasi(&ts, ns)
 		case 5:
+			cetak_data(ts, ns)
+		case 6:
 			fmt.Println("Terima kasih telah menggunakan aplikasi MySleep!")
 			fmt.Println(" ")
 		default:
 			fmt.Println("Pilihan tidak valid")
 			fmt.Println(" ")
 		}
-		if pilih == 5 {
+		if pilih == 6 {
 			break
 		}
 	}
@@ -62,10 +63,12 @@ func tambah_data(m *tabtidur, n *int) {
 	if *n < MAXDATA {
 		fmt.Print("Tanggal (TTTT-BB-HH): ")
 		fmt.Scan(&m[*n].tanggal)
+		fmt.Print("Umur (T): ")
+		fmt.Scan(&m[*n].umur)
 		fmt.Print("Jam Tidur (JJ:MM): ")
-		fmt.Scan(&m[*n].jamTidur)
+		fmt.Scan(&m[*n].jamTidur, &m[*n].menitTidur)
 		fmt.Print("Jam Bangun (JJ:MM): ")
-		fmt.Scan(&m[*n].jamBangun)
+		fmt.Scan(&m[*n].jamBangun, &m[*n].menitBangun)
 		*n++
 		fmt.Println("Data berhasil ditambahkan!")
 		fmt.Println(" ")
@@ -81,9 +84,9 @@ func ubah_data(m *tabtidur, n int) {
 	k = cari_tanggal(*m, n, cari)
 	if k != -1 {
 		fmt.Print("JamTidurBaru (JJ:MM): ")
-		fmt.Scan(&m[k].jamTidur)
+		fmt.Scan(&m[k].jamTidur, &m[k].menitTidur)
 		fmt.Print("JamBangunBaru (JJ:MM): ")
-		fmt.Scan(&m[k].jamBangun)
+		fmt.Scan(&m[k].jamBangun, &m[k].menitBangun)
 		fmt.Println("Data berhasil diubah")
 		fmt.Println(" ")
 	} else {
@@ -111,11 +114,41 @@ func hapus_data(m *tabtidur, n *int) {
 	}
 }
 
+func cek_durasi(m *tabtidur, n int) {
+	var k int
+	var cari string
+
+	fmt.Println("Masukan tanggal yang ingin di cek")
+	fmt.Print("(TTTT-BB-HH): ")
+	fmt.Scan(&cari)
+	k = cari_tanggal(*m, n, cari)
+
+	if k != -1 {
+		*&m[k].durasiJam = 23 - m[k].jamTidur + m[k].jamBangun
+		*&m[k].durasiMenit = 60 - m[k].menitTidur + m[k].menitBangun
+		if m[k].durasiMenit >= 60 {
+			m[k].durasiMenit = m[k].durasiMenit - 60
+			m[k].durasiJam++
+		}
+		fmt.Printf("Berdasarkan pengecekan, durasi tidur anda adalah %d jam, %d menit\n", m[k].durasiJam, m[k].durasiMenit)
+		if m[k].durasiJam < 7 {
+			fmt.Println("Waktu tidur anda kurang cukup")
+		} else if m[k].durasiJam > 11 {
+			fmt.Println("Waktu tidur anda lebih dari cukup")
+		} else {
+			fmt.Println("Waktu tidur anda cukup")
+		}
+	} else {
+		fmt.Println("Data tidak ditemukan.")
+		fmt.Println(" ")
+	}
+}
+
 func cetak_data(m tabtidur, n int) {
 	fmt.Println("--- DATA RIWAYAT TIDUR ---")
 	var i int
 	for i = 0; i < n; i++ {
-		fmt.Printf("%d. %s | Tidur: %s | Bangun: %s\n", i+1, m[i].tanggal, m[i].jamTidur, m[i].jamBangun)
+		fmt.Printf("%d. %s | Umur: %d | Tidur: %d:%d | Bangun: %d:%d\n", i+1, m[i].tanggal, m[i].umur, m[i].jamTidur, m[i].menitTidur, m[i].jamBangun, m[i].menitBangun)
 		fmt.Println(" ")
 	}
 	if n == 0 {
