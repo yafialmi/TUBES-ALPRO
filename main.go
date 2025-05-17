@@ -11,13 +11,14 @@ type tidur struct {
 
 type tabtidur [MAXDATA]tidur
 
+var ts tabtidur
+var ns int = 0
+
 func main() {
 	menu_utama()
 }
 
 func menu_utama() {
-	var ts tabtidur
-	var ns int = 0
 	var pilih int
 	for {
 		fmt.Println("=========================")
@@ -126,6 +127,9 @@ func cek_durasi(m *tabtidur, n int) {
 	if k != -1 {
 		*&m[k].durasiJam = 23 - m[k].jamTidur + m[k].jamBangun
 		*&m[k].durasiMenit = 60 - m[k].menitTidur + m[k].menitBangun
+		if m[k].durasiJam >= 24 {
+			m[k].durasiJam = m[k].durasiJam - 24
+		}
 		if m[k].durasiMenit >= 60 {
 			m[k].durasiMenit = m[k].durasiMenit - 60
 			m[k].durasiJam++
