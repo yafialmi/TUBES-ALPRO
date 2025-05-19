@@ -21,7 +21,7 @@ func menu_utama() {
 	var pilih int
 	for {
 		fmt.Println("=========================")
-		fmt.Println("    APLIKASI MYSLEEP Azmi")
+		fmt.Println("    APLIKASI MYSLEEP")
 		fmt.Println("=========================")
 		fmt.Println("1. Tambah Riwayat Tidur")
 		fmt.Println("2. Ubah Riwayat Tidur")
