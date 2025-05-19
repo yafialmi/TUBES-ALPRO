@@ -11,14 +11,13 @@ type tidur struct {
 
 type tabtidur [MAXDATA]tidur
 
-var ts tabtidur
-var ns int = 0
-
 func main() {
 	menu_utama()
 }
 
 func menu_utama() {
+	var ts tabtidur
+	var ns int = 0
 	var pilih int
 	for {
 		fmt.Println("=========================")
@@ -29,9 +28,10 @@ func menu_utama() {
 		fmt.Println("3. Hapus Riwayat Tidur")
 		fmt.Println("4. Pengecekan Durasi")
 		fmt.Println("5. Cetak Semua Data")
-		fmt.Println("6. Exit")
+		fmt.Println("6. Cari Riwayat Tidur")
+		fmt.Println("7. Exit")
 		fmt.Println("-------------------------")
-		fmt.Println("Pilih [1/2/3/4/5]: ")
+		fmt.Println("Pilih [1/2/3/4/5/6/7]: ")
 		fmt.Scan(&pilih)
 		fmt.Println("-------------------------")
 
@@ -47,13 +47,15 @@ func menu_utama() {
 		case 5:
 			cetak_data(ts, ns)
 		case 6:
+			// cariRiwayat(ts, ns)
+		case 7:
 			fmt.Println("Terima kasih telah menggunakan aplikasi MySleep!")
 			fmt.Println(" ")
 		default:
 			fmt.Println("Pilihan tidak valid")
 			fmt.Println(" ")
 		}
-		if pilih == 6 {
+		if pilih == 7 {
 			break
 		}
 	}
@@ -102,6 +104,7 @@ func hapus_data(m *tabtidur, n *int) {
 	fmt.Println("Masukkan tanggal yang ingin dihapus")
 	fmt.Print("(TTTT-BB-HH): ")
 	fmt.Scan(&cari)
+	k = cari_tanggal(*m, *n, cari)
 	if k != -1 {
 		for i = k; i < *n-1; i++ {
 			m[i] = m[i+1]
@@ -162,6 +165,7 @@ func cetak_data(m tabtidur, n int) {
 
 }
 
+//TODO: UPDATE CARI TANGGAL JADI SEQUENTIAL SEARCH
 func cari_tanggal(m tabtidur, n int, cari string) int {
 	var i int
 	var idx int = -1
@@ -174,3 +178,9 @@ func cari_tanggal(m tabtidur, n int, cari string) int {
 	}
 	return idx
 }
+
+//TODO: SORT MENAIK MENGGUNAKAN INSERTION SORT
+func sortMenaik() {}
+
+//TODO: SORT MENURUN MENGGUNAKAN SORT BIASA
+func sortMenurun() {}
