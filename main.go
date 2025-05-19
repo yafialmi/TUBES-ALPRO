@@ -5,6 +5,8 @@ import "fmt"
 const MAXDATA = 100
 
 type tidur struct {
+	//TODO: HAKEEM NAMBAHIN KUALITAS TIDUR (KURANG/CUKU/BAIK)
+	id                                                                         int
 	tanggal                                                                    string
 	umur, jamTidur, menitTidur, jamBangun, menitBangun, durasiJam, durasiMenit int
 }
@@ -63,6 +65,7 @@ func menu_utama() {
 
 func tambah_data(m *tabtidur, n *int) {
 	fmt.Println("Tambah Riwayat Tidur")
+	//TODO: Hakeem nambahin ID menggunakan N dan Kualitas Tidur
 	if *n < MAXDATA {
 		fmt.Print("Tanggal (TTTT-BB-HH): ")
 		fmt.Scan(&m[*n].tanggal)
@@ -72,6 +75,7 @@ func tambah_data(m *tabtidur, n *int) {
 		fmt.Scan(&m[*n].jamTidur, &m[*n].menitTidur)
 		fmt.Print("Jam Bangun (JJ:MM): ")
 		fmt.Scan(&m[*n].jamBangun, &m[*n].menitBangun)
+
 		*n++
 		fmt.Println("Data berhasil ditambahkan!")
 		fmt.Println(" ")
@@ -138,6 +142,7 @@ func cek_durasi(m *tabtidur, n int) {
 			m[k].durasiJam++
 		}
 		fmt.Printf("Berdasarkan pengecekan, durasi tidur anda adalah %d jam, %d menit\n", m[k].durasiJam, m[k].durasiMenit)
+		//TODO: NESTED IF UNTUK RENTANG UMUR DAN PENGECEKAN SARAN KUALITAS TIDUR
 		if m[k].durasiJam < 7 {
 			fmt.Println("Waktu tidur anda kurang cukup")
 		} else if m[k].durasiJam > 11 {
@@ -154,6 +159,7 @@ func cek_durasi(m *tabtidur, n int) {
 func cetak_data(m tabtidur, n int) {
 	fmt.Println("--- DATA RIWAYAT TIDUR ---")
 	var i int
+	//TODO: TAMBAHKAN CETAK DURASI TIDUR
 	for i = 0; i < n; i++ {
 		fmt.Printf("%d. %s | Umur: %d | Tidur: %d:%d | Bangun: %d:%d\n", i+1, m[i].tanggal, m[i].umur, m[i].jamTidur, m[i].menitTidur, m[i].jamBangun, m[i].menitBangun)
 		fmt.Println(" ")
@@ -179,8 +185,11 @@ func cari_tanggal(m tabtidur, n int, cari string) int {
 	return idx
 }
 
+//TODO: REKAPAN TIDUR SELAMA SEMINGGU DAN RATA-RATA TIDUR DALAM SEMINGGU
+func rekapTidur() {}
+
 //TODO: SORT MENAIK MENGGUNAKAN INSERTION SORT
 func sortMenaik() {}
 
-//TODO: SORT MENURUN MENGGUNAKAN SORT BIASA
+//TODO: SORT MENURUN MENGGUNAKAN SELECTION SORT
 func sortMenurun() {}
